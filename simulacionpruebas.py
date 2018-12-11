@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 from matplotlib import animation
 import numpy as np
 
-datos = open('casosimple1.dump', 'r')
+datos = open('intento.dump', 'r')
 tabla = datos.read().splitlines()
 datos.close
 
@@ -32,7 +32,7 @@ for y in [row[2] for row in trayectorias] + [row[4] for row in trayectorias]:
         min_y = y
 
 fig = plt.figure()
-ax = plt.axes(xlim=(min_x, max_x), ylim=(min_y, max_y))
+ax = plt.axes(xlim=(min_x - 2000 * radios[0], max_x + 2000 * radios[0]), ylim=(min_y - 2000 * radios[0], max_y + 2000 * radios[0]))
 print(radios[0] / 10 ** (np.log10(radios[0]) - 1))
 sun, = ax.plot([], [], '-o', markersize=2 * radios[0] / 10 ** (np.log10(radios[0]) - 1))
 suntr, = ax.plot([], [], '-')
@@ -61,6 +61,6 @@ def animate(i):
 
 
 anim = animation.FuncAnimation(fig, animate, init_func=init,
-                               frames=250 * 5, interval=10, blit=True)
-
+                               frames=445, interval=5, blit=True, repeat=False)
+# 445 plutón, 410 tierra
 plt.show()

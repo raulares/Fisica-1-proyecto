@@ -38,8 +38,8 @@ print(min_x, max_x, min_y, max_y)
 fig = plt.figure()
 ax = plt.axes(xlim=(min_x, max_x), ylim=(min_y, max_y))
 print(radios[0] / 10 ** (np.log10(radios[0]) - 1))
-sun, = ax.plot([0, 0], [0, 0], '-o', markersize=2 * radios[0] / 10 ** (np.log10(radios[0]) - 1))
-earth, = ax.plot([], [], '-o', markersize=2 * radios[1] / 10 ** (np.log10(radios[0]) - 1))
+sun, = ax.plot([0, 0], [0, 0], '-o', markersize=radios[0] / 10 ** (np.log10(radios[0]) - 1))
+earth, = ax.plot([], [], '-o', markersize=radios[1] / 10 ** (np.log10(radios[0]) - 1))
 earthtr, = ax.plot([], [], '-')
 
 
@@ -56,10 +56,10 @@ def animate(i):
     earthx = trayectorias[i + 1][3]
     earthy = trayectorias[i + 1][4]
     earth.set_data([earthx - sunx], [earthy - suny])
-    return earth, earthtr
+    return earth, earthtr, sun
 
 
 anim = animation.FuncAnimation(fig, animate, init_func=init,
-                               frames=250 * 3, interval=15, blit=True)
+                               frames=250 * 5, interval=5, blit=True, repeat=False)
 
 plt.show()

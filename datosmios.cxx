@@ -20,8 +20,10 @@
 #define CARONTE_MASA 1.52e21
 #define CARONTE_RADIO 604000.0
 #define DT 1511.0
+#define DTS 86400.0
 #define NUM_CUERPOS 2
-#define NUM_PASOS 365
+#define NUM_PASOS 450
+#define NUM_PASOSS 365
 
 using namespace std;
 
@@ -91,7 +93,7 @@ void Resolver_r::aproximar(double x, double y, double & ax, double &ay) {
 
 int main() {
 
-
+    /*
     //r1 pluton, r2 caronte
     double PLUTON_VY0 = 20.00;
     Resolver_r solucion(-17535294.0-2035706.0, 0.00-0.00, 0.00-0.00, -210.00-PLUTON_VY0, CARONTE_MASA + PLUTON_MASA);
@@ -117,15 +119,15 @@ int main() {
         solucion.paso(DT);
     }
 
-    fclose(datos);
+    fclose(datos);*/
 
-    /*
-    r1 sol, r2 tierra
-    double SOL_X0 = TIERRA_MASA * TIERRA_X0 / SOL_MASA;
-    Resolver_r solucion(TIERRA_X0-SOL_X0, 0.00-0.00, 0.00-0.00, TIERRA_VY0-10.00, TIERRA_MASA + SOL_MASA);
+
+    //r1 sol, r2 tierra
+    double SOL_X0 = 0*TIERRA_MASA * TIERRA_X0 / SOL_MASA;
+    Resolver_r solucion(TIERRA_X0-0.0, 0.00-0.00, 0.00-0.00, TIERRA_VY0-0, TIERRA_MASA+ SOL_MASA);
 
     double vxCentroDeMasa = 0;
-    double vyCentroDeMasa = (SOL_MASA * (10.00) + TIERRA_MASA * TIERRA_VY0) / solucion.masa();
+    double vyCentroDeMasa = 0*(SOL_MASA * (10.00) + TIERRA_MASA * TIERRA_VY0) / solucion.masa();
 
     FILE *datos;
     datos = fopen("intento.dump","w");
@@ -136,17 +138,17 @@ int main() {
 
     double carontex, carontey, plutonx, plutony;
 
-    for(int nstep = 0; nstep <= 365; nstep++) {
-        plutonx = -solucion.x() * TIERRA_MASA / solucion.masa();
-        plutony = vyCentroDeMasa * DT * nstep - solucion.y() * TIERRA_MASA / solucion.masa();
+    for(int nstep = 0; nstep <= 366; nstep++) {
+        //plutonx = -solucion.x() * TIERRA_MASA / solucion.masa();
+        //plutony = vyCentroDeMasa * DTS * nstep - solucion.y() * TIERRA_MASA / solucion.masa();
         carontex = solucion.x() * SOL_MASA / solucion.masa();
-        carontey = vyCentroDeMasa * DT * nstep + solucion.y() * SOL_MASA / solucion.masa();
-        fprintf(datos, "%d %f %f %f %f\n", nstep, plutonx, plutony, carontex, carontey);
-        solucion.paso(DT);
+        carontey = solucion.y() * SOL_MASA / solucion.masa();
+        fprintf(datos, "%d %f %f %f %f\n", nstep, 0.00, 0.00, carontex, carontey);
+        solucion.paso(DTS);
         //solucion.asignarPosY(solucion.y()+(carontey-plutony));
     }
 
-    fclose(datos);*/
+    fclose(datos);
 
     return 0;
 }

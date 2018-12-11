@@ -21,7 +21,7 @@
 #define CARONTE_RADIO 604000.0
 #define DT 6700.00
 #define NUM_CUERPOS 2
-#define NUM_PASOS 365
+#define NUM_PASOS 500
 
 using namespace std;
 

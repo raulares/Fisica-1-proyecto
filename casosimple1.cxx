@@ -19,9 +19,9 @@
 #define CARONTE_VY0 -230.0
 #define CARONTE_MASA 1.52e21
 #define CARONTE_RADIO 604000.0
-#define DT 0.03
+#define DT 0.02
 #define NUM_CUERPOS 2
-#define NUM_PASOS 250*3
+#define NUM_PASOS 250*5
 
 using namespace std;
 
@@ -91,10 +91,14 @@ void Resolver_r::aproximar(double x, double y, double & ax, double &ay) {
 
 int main() {
 
-    Resolver_r solucion(2-0, 0.0-0.0, 0.01-0.05, 1.3-0.0, 1 + 1);
+    float b = 0.5;
+    float m1 = 1.0;
+    Resolver_r solucion(2-0, 0.0-0.0, 0.01-0.05, b-0.0, m1 + 1);
 
-    double vxCentroDeMasa = (1 * (0.01) + 1 * 0.05) / solucion.masa();
-    double vyCentroDeMasa = (1 * (0.5) + 1 * 0) / solucion.masa();
+    double vxCentroDeMasa = (1 * (0.01) + m1 * 0.05) / solucion.masa();
+    double vyCentroDeMasa = (1 * (b) + m1 * 0) / solucion.masa();
+    double xCentroDeMasa = (1 * (2) + m1 * 0) / solucion.masa();
+    double yCentroDeMasa = (1 * (0) + m1 * 0) / solucion.masa();
 
     FILE *datos;
     datos = fopen("casosimple1.dump","w");
@@ -106,10 +110,10 @@ int main() {
     double carontex, carontey, plutonx, plutony;
 
     for(int nstep = 0; nstep <= NUM_PASOS; nstep++) {
-        plutonx = vxCentroDeMasa * DT * nstep - solucion.x() * 1 / solucion.masa();
-        plutony = vyCentroDeMasa * DT * nstep - solucion.y() * 1 / solucion.masa();
-        carontex = vxCentroDeMasa * DT * nstep + solucion.x() * 1 / solucion.masa();
-        carontey = vyCentroDeMasa * DT * nstep + solucion.y() * 1 / solucion.masa();
+        plutonx = vxCentroDeMasa * DT * nstep - solucion.x() * 1 / solucion.masa() +xCentroDeMasa;
+        plutony = vyCentroDeMasa * DT * nstep - solucion.y() * 1 / solucion.masa() +yCentroDeMasa;
+        carontex = vxCentroDeMasa * DT * nstep + solucion.x() * m1 / solucion.masa() +xCentroDeMasa;
+        carontey = vyCentroDeMasa * DT * nstep + solucion.y() * m1 / solucion.masa() +yCentroDeMasa;
         fprintf(datos, "%d %f %f %f %f\n", nstep, plutonx, plutony, carontex, carontey);
         solucion.paso(DT);
         //solucion.asignarPosY(solucion.y()+(carontey-plutony));
